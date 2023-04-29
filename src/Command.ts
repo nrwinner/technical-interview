@@ -1,4 +1,3 @@
-import { VALID_COMMANDS } from './types/ValidCommands';
 import { ValidatorResult } from './types/ValidateResult';
 
 export abstract class Command {

@@ -1,11 +1,10 @@
 import { Command } from '../Command';
 import { printMessage } from '../outputs/printMessage';
-import { VALID_COMMANDS } from '../types/ValidCommands';
 import { ValidatorResult } from '../types/ValidateResult';
 
 export class MoveCommand extends Command {
   constructor(
-    public readonly name: VALID_COMMANDS.MOVE,
+    public readonly name: 'move',
     public readonly args: [srcPath: string, destinationDirectoryPath: string]
   ) {
     super(name, args);

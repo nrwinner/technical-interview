@@ -1,5 +1,4 @@
 import { Command } from './Command';
-import { VALID_COMMANDS } from './types/ValidCommands';
 
 import { CreateCommand } from './commands/CreateCommand';
 import { DeleteCommand } from './commands/DeleteCommand';
@@ -13,10 +12,10 @@ type CommandConstructor = new (
 export class CommandFactory {
   private static readonly commandRegistry: Record<string, CommandConstructor> =
     {
-      [VALID_COMMANDS.CREATE]: CreateCommand,
-      [VALID_COMMANDS.DELETE]: DeleteCommand,
-      [VALID_COMMANDS.LIST]: ListCommand,
-      [VALID_COMMANDS.MOVE]: MoveCommand,
+      create: CreateCommand,
+      delete: DeleteCommand,
+      list: ListCommand,
+      move: MoveCommand,
     };
 
   public static create(commandString: string): Command {

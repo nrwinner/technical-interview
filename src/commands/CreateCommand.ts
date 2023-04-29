@@ -1,11 +1,10 @@
 import { Command } from '../Command';
 import { printMessage } from '../outputs/printMessage';
-import { VALID_COMMANDS } from '../types/ValidCommands';
 import { ValidatorResult } from '../types/ValidateResult';
 
 export class CreateCommand extends Command {
   constructor(
-    public readonly name: VALID_COMMANDS.CREATE,
+    public readonly name: 'create',
     public readonly args: [path: string]
   ) {
     super(name, args);
