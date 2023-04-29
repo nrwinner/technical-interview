@@ -1,27 +1,32 @@
 import { Command } from './Command';
 import { Directory } from './Directory';
 
-import { VALID_COMMANDS } from './types/ValidCommands';
 import { parsePath } from './utils/parsePath';
 import { printDirectoryItem } from './outputs/printDirectoryItem';
 import { printError } from './outputs/printError';
+import { CreateCommand } from './commands/CreateCommand';
+import { MoveCommand } from './commands/MoveCommand';
+import { DeleteCommand } from './commands/DeleteCommand';
+import { ListCommand } from './commands/ListCommand';
 
 export class FileSystem {
   private data = new Directory('_root', null);
 
   public processCommand(command: Command): void {
-    switch (command.name) {
-      case VALID_COMMANDS.LIST:
-        return this.list();
-      case VALID_COMMANDS.CREATE:
-        // @ts-ignore
-        return this.create(...command.args);
-      case VALID_COMMANDS.MOVE:
-        // @ts-ignore
-        return this.move(...command.args);
-      case VALID_COMMANDS.DELETE:
-        // @ts-ignore
-        return this.delete(...command.args);
+    if (command instanceof CreateCommand) {
+      return this.create(...command.args);
+    }
+
+    if (command instanceof MoveCommand) {
+      return this.move(...command.args);
+    }
+
+    if (command instanceof DeleteCommand) {
+      return this.delete(...command.args);
+    }
+
+    if (command instanceof ListCommand) {
+      return this.list();
     }
   }
 

@@ -1,62 +1,51 @@
 import { VALID_COMMANDS } from './types/ValidCommands';
 import { ValidatorResult } from './types/ValidateResult';
 
-export class Command {
-  private constructor(
-    public readonly name: VALID_COMMANDS,
+export abstract class Command {
+  constructor(
+    public readonly name: string,
     public readonly args: ReadonlyArray<string>
   ) {}
 
-  public static create(commandString: string) {
-    const [name, ...args] = commandString.split(' ');
-
-    const { valid, message } = Command.validate(name, args);
-
-    if (!valid) {
-      throw new Error(message);
-    }
-
-    return new Command(name.toLowerCase() as VALID_COMMANDS, args);
-  }
-
-  public static validate(
-    name: string,
-    args: ReadonlyArray<string> = []
-  ): ValidatorResult {
-    if (name.length === 0) {
+  public validate(): ValidatorResult {
+    if (this.name.length === 0) {
       return {
         valid: false,
         message: 'CommandValidationError: Please enter a command.',
       };
     }
 
-    const nameLower = name.toLowerCase();
+    return this._validate();
 
-    switch (nameLower) {
-      case VALID_COMMANDS.LIST:
-        return { valid: true };
-      case VALID_COMMANDS.CREATE:
-      case VALID_COMMANDS.DELETE:
-        return args.length >= 1
-          ? { valid: true }
-          : {
-              valid: false,
-              message: `CommandValidationError: Please provide a path at which to ${nameLower} the item.`,
-            };
-      case VALID_COMMANDS.MOVE:
-        return args.length >= 2
-          ? { valid: true }
-          : {
-              valid: false,
-              message:
-                'CommandValidationError: Please provide a target and destination path.',
-            };
+    // const nameLower = this.name.toLowerCase();
 
-      default:
-        return {
-          valid: false,
-          message: `CommandValidationError: Unknown command '${name}'.`,
-        };
-    }
+    // switch (nameLower) {
+    //   case VALID_COMMANDS.LIST:
+    //     return { valid: true };
+    //   case VALID_COMMANDS.CREATE:
+    //   case VALID_COMMANDS.DELETE:
+    //     return this.args.length >= 1
+    //       ? { valid: true }
+    //       : {
+    //           valid: false,
+    //           message: `CommandValidationError: Please provide a path at which to ${nameLower} the item.`,
+    //         };
+    //   case VALID_COMMANDS.MOVE:
+    //     return this.args.length >= 2
+    //       ? { valid: true }
+    //       : {
+    //           valid: false,
+    //           message:
+    //             'CommandValidationError: Please provide a target and destination path.',
+    //         };
+
+    //   default:
+    //     return {
+    //       valid: false,
+    //       message: `CommandValidationError: Unknown command '${this.name}'.`,
+    //     };
+    // }
   }
+
+  protected abstract _validate(): ValidatorResult;
 }

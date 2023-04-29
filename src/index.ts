@@ -1,6 +1,6 @@
-import { Command } from './Command';
+import { CommandFactory } from './CommandFactory';
 import { FileSystem } from './FileSystem';
-import { parseInput } from './utils/parseInput';
+import { listenForCommands } from './utils/listenForCommands';
 import { printError } from './outputs/printError';
 
 import { createReadStream } from 'fs';
@@ -9,7 +9,7 @@ const fs = new FileSystem();
 
 const processCommand = (rawCommand: string) => {
   try {
-    const command = Command.create(rawCommand);
+    const command = CommandFactory.create(rawCommand);
     fs.processCommand(command);
   } catch (e) {
     if (e instanceof Error) {
@@ -23,7 +23,7 @@ const processCommand = (rawCommand: string) => {
 
 const inputPath: string | undefined = process.argv[2];
 
-parseInput(
+listenForCommands(
   inputPath ? createReadStream(inputPath) : process.stdin,
   processCommand,
   Boolean(inputPath)
