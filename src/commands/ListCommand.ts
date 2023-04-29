@@ -17,7 +17,7 @@ export class ListCommand extends Command {
     return { valid: true };
   }
 
-  public execute(data: Directory): void {
+  public execute(rootDirectory: Directory): void {
     const listDirectory = (directory: Directory, level: number = 0) => {
       printDirectoryItem(new Array(level).fill('  ').join('') + directory.key);
 
@@ -26,6 +26,6 @@ export class ListCommand extends Command {
       );
     };
 
-    data.children.forEach((directory) => listDirectory(directory, 0));
+    rootDirectory.children.forEach((directory) => listDirectory(directory, 0));
   }
 }
