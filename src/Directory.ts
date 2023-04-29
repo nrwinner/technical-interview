@@ -1,3 +1,17 @@
+import { insertInAscOrder } from './utils/insertInOrder';
+
+const directoryComparator = (item1: Directory, item2: Directory) => {
+  if (item1.key < item2.key) {
+    return -1;
+  }
+
+  if (item1.key > item2.key) {
+    return 1;
+  }
+
+  return 0;
+};
+
 export class Directory {
   constructor(
     public readonly key: string,
@@ -6,12 +20,18 @@ export class Directory {
   ) {}
 
   public add(key: string): void {
-    this._children.push(new Directory(key, this));
+    insertInAscOrder(
+      new Directory(key, this),
+      this._children,
+      directoryComparator
+    );
   }
 
   public addExisting(directory: Directory) {
-    this._children.push(
-      new Directory(directory.key, this, [...directory.children])
+    insertInAscOrder(
+      new Directory(directory.key, this, [...directory.children]),
+      this._children,
+      directoryComparator
     );
   }
 
