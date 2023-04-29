@@ -1,4 +1,7 @@
 import { Command } from '../Command';
+import { Directory } from '../Directory';
+import { parsePath } from '../utils/parsePath';
+import { printError } from '../outputs/printError';
 import { printMessage } from '../outputs/printMessage';
 import { ValidatorResult } from '../types/ValidateResult';
 
@@ -25,5 +28,26 @@ export class DeleteCommand extends Command {
       message:
         'CommandValidationError: Please provide a path at which to delete the item.',
     };
+  }
+
+  public execute(
+    _: Directory,
+    traverse: (path: string[], createIfNotExists?: boolean) => Directory
+  ): void {
+    const parsedPath = parsePath(this.args[0]);
+
+    const hostDirectoryPath = parsedPath.slice(0, parsedPath.length - 1);
+    const targetName = parsedPath[parsedPath.length - 1];
+
+    try {
+      const hostDirectory = traverse(hostDirectoryPath);
+      hostDirectory.delete(targetName);
+    } catch (e) {
+      if (e instanceof Error) {
+        printError(`Cannot delete ${this.args[0]} - ${e.message}`);
+      } else {
+        console.error(e);
+      }
+    }
   }
 }

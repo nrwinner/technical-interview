@@ -1,12 +1,11 @@
 import { Command } from '../Command';
+import { Directory } from '../Directory';
+import { printDirectoryItem } from '../outputs/printDirectoryItem';
 import { printMessage } from '../outputs/printMessage';
 import { ValidatorResult } from '../types/ValidateResult';
 
 export class ListCommand extends Command {
-  constructor(
-    public readonly name: 'list',
-    public readonly args: []
-  ) {
+  constructor(public readonly name: 'list', public readonly args: []) {
     super(name, args);
   }
 
@@ -16,5 +15,17 @@ export class ListCommand extends Command {
     }
 
     return { valid: true };
+  }
+
+  public execute(data: Directory): void {
+    const listDirectory = (directory: Directory, level: number = 0) => {
+      printDirectoryItem(new Array(level).fill('  ').join('') + directory.key);
+
+      directory.children.forEach((directory) =>
+        listDirectory(directory, level + 1)
+      );
+    };
+
+    data.children.forEach((directory) => listDirectory(directory, 0));
   }
 }

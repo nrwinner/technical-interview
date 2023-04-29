@@ -18,6 +18,13 @@ export class CommandFactory {
       move: MoveCommand,
     };
 
+  public static registerCommand(
+    name: string,
+    commandConstructor: CommandConstructor
+  ) {
+    this.commandRegistry[name] = commandConstructor;
+  }
+
   public static create(commandString: string): Command {
     const [name, ...args] = commandString.split(' ');
 

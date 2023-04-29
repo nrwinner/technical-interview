@@ -1,4 +1,7 @@
 import { Command } from '../Command';
+import { Directory } from '../Directory';
+import { parsePath } from '../utils/parsePath';
+import { printError } from '../outputs/printError';
 import { printMessage } from '../outputs/printMessage';
 import { ValidatorResult } from '../types/ValidateResult';
 
@@ -22,7 +25,29 @@ export class MoveCommand extends Command {
 
     return {
       valid: false,
-      message: 'CommandValidationError: Please provide a target and destination path.',
+      message:
+        'CommandValidationError: Please provide a target and destination path.',
     };
+  }
+
+  public execute(
+    _: Directory,
+    traverse: (path: string[], createIfNotExists?: boolean) => Directory
+  ): void {
+    try {
+      const sourceDirectory = traverse(parsePath(this.args[0]));
+      sourceDirectory.parent.delete(sourceDirectory.key);
+
+      const destinationDirectory = traverse(parsePath(this.args[1]));
+      destinationDirectory.addExisting(sourceDirectory);
+    } catch (e) {
+      if (e instanceof Error) {
+        printError(
+          `Cannot move ${this.args[0]} to ${this.args[1]} - ${e.message}`
+        );
+      } else {
+        console.error(e);
+      }
+    }
   }
 }

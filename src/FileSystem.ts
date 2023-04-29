@@ -1,93 +1,11 @@
 import { Command } from './Command';
 import { Directory } from './Directory';
-import { parsePath } from './utils/parsePath';
-import { printDirectoryItem } from './outputs/printDirectoryItem';
-import { printError } from './outputs/printError';
-
-import { CreateCommand } from './commands/CreateCommand';
-import { DeleteCommand } from './commands/DeleteCommand';
-import { ListCommand } from './commands/ListCommand';
-import { MoveCommand } from './commands/MoveCommand';
 
 export class FileSystem {
   private data = new Directory('_root', null);
 
   public processCommand(command: Command): void {
-    if (command instanceof CreateCommand) {
-      return this.create(...command.args);
-    }
-
-    if (command instanceof MoveCommand) {
-      return this.move(...command.args);
-    }
-
-    if (command instanceof DeleteCommand) {
-      return this.delete(...command.args);
-    }
-
-    if (command instanceof ListCommand) {
-      return this.list();
-    }
-
-    printError(`Failed to process command '${command.name}'`);
-  }
-
-  private create(path: string) {
-    try {
-      this.traverse(parsePath(path), true);
-    } catch (e) {
-      if (e instanceof Error) {
-        printError(`Cannot create ${path} - ${e.message}`);
-      } else {
-        console.error(e);
-      }
-    }
-  }
-
-  private list() {
-    const listDirectory = (directory: Directory, level: number = 0) => {
-      printDirectoryItem(new Array(level).fill('  ').join('') + directory.key);
-
-      directory.children.forEach((directory) =>
-        listDirectory(directory, level + 1)
-      );
-    };
-
-    this.data.children.forEach((directory) => listDirectory(directory, 0));
-  }
-
-  private move(origin: string, destination: string) {
-    try {
-      const sourceDirectory = this.traverse(parsePath(origin));
-      sourceDirectory.parent.delete(sourceDirectory.key);
-
-      const destinationDirectory = this.traverse(parsePath(destination));
-      destinationDirectory.addExisting(sourceDirectory);
-    } catch (e) {
-      if (e instanceof Error) {
-        printError(`Cannot move ${origin} to ${destination} - ${e.message}`);
-      } else {
-        console.error(e);
-      }
-    }
-  }
-
-  private delete(path: string) {
-    const parsedPath = parsePath(path);
-
-    const hostDirectoryPath = parsedPath.slice(0, parsedPath.length - 1);
-    const targetName = parsedPath[parsedPath.length - 1];
-
-    try {
-      const hostDirectory = this.traverse(hostDirectoryPath);
-      hostDirectory.delete(targetName);
-    } catch (e) {
-      if (e instanceof Error) {
-        printError(`Cannot delete ${path} - ${e.message}`);
-      } else {
-        console.error(e);
-      }
-    }
+    command.execute(this.data, this.traverse.bind(this));
   }
 
   private traverse(path: string[], createIfNotExists = false): Directory {

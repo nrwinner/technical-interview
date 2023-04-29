@@ -1,3 +1,4 @@
+import { Directory } from './Directory';
 import { ValidatorResult } from './types/ValidateResult';
 
 export abstract class Command {
@@ -16,6 +17,11 @@ export abstract class Command {
 
     return this._validate();
   }
+
+  public abstract execute(
+    data: Directory,
+    traverse: (path: string[], createIfNotExists?: boolean) => Directory
+  ): void;
 
   protected abstract _validate(): ValidatorResult;
 }
