@@ -3,8 +3,8 @@ import { VALID_COMMANDS } from './types/ValidCommands';
 
 import { CreateCommand } from './commands/CreateCommand';
 import { DeleteCommand } from './commands/DeleteCommand';
-import { MoveCommand } from './commands/MoveCommand';
 import { ListCommand } from './commands/ListCommand';
+import { MoveCommand } from './commands/MoveCommand';
 
 type CommandConstructor = new (
   ...args: ConstructorParameters<typeof Command>

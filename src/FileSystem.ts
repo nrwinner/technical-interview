@@ -1,13 +1,13 @@
 import { Command } from './Command';
 import { Directory } from './Directory';
-
 import { parsePath } from './utils/parsePath';
-import { printDirectoryItem } from './outputs/printDirectoryItem';
 import { printError } from './outputs/printError';
+import { printDirectoryItem } from './outputs/printDirectoryItem';
+
 import { CreateCommand } from './commands/CreateCommand';
-import { MoveCommand } from './commands/MoveCommand';
 import { DeleteCommand } from './commands/DeleteCommand';
 import { ListCommand } from './commands/ListCommand';
+import { MoveCommand } from './commands/MoveCommand';
 
 export class FileSystem {
   private data = new Directory('_root', null);

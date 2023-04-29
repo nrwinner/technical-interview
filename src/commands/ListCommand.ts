@@ -1,4 +1,5 @@
 import { Command } from '../Command';
+import { printMessage } from '../outputs/printMessage';
 import { VALID_COMMANDS } from '../types/ValidCommands';
 import { ValidatorResult } from '../types/ValidateResult';
 
@@ -11,6 +12,10 @@ export class ListCommand extends Command {
   }
 
   protected _validate(): ValidatorResult {
+    if (this.args.length) {
+      printMessage('Additional arguments were found and will be ignored');
+    }
+
     return { valid: true };
   }
 }

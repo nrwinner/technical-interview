@@ -1,4 +1,5 @@
 import { Command } from '../Command';
+import { printMessage } from '../outputs/printMessage';
 import { VALID_COMMANDS } from '../types/ValidCommands';
 import { ValidatorResult } from '../types/ValidateResult';
 
@@ -16,7 +17,7 @@ export class DeleteCommand extends Command {
     }
 
     if (this.args.length > 1) {
-      // TODO(nrwinner) print message here?
+      printMessage('Additional arguments were found and will be ignored');
       return { valid: true };
     }
 
