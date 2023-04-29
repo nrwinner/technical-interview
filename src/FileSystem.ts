@@ -1,8 +1,8 @@
 import { Command } from './Command';
 import { Directory } from './Directory';
 import { parsePath } from './utils/parsePath';
-import { printError } from './outputs/printError';
 import { printDirectoryItem } from './outputs/printDirectoryItem';
+import { printError } from './outputs/printError';
 
 import { CreateCommand } from './commands/CreateCommand';
 import { DeleteCommand } from './commands/DeleteCommand';
