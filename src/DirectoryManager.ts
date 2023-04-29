@@ -1,7 +1,7 @@
 import { Command } from './Command';
 import { Directory } from './Directory';
 
-export class FileSystem {
+export class DirectoryManager {
   private data = new Directory('_root', null);
 
   public processCommand(command: Command): void {

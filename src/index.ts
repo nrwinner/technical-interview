@@ -1,16 +1,16 @@
 import { CommandFactory } from './CommandFactory';
-import { FileSystem } from './FileSystem';
+import { DirectoryManager } from './DirectoryManager';
 import { listenForCommands } from './utils/listenForCommands';
 import { printError } from './outputs/printError';
 
 import { createReadStream } from 'fs';
 
-const fs = new FileSystem();
+const directoryManager = new DirectoryManager();
 
 const processCommand = (rawCommand: string) => {
   try {
     const command = CommandFactory.create(rawCommand);
-    fs.processCommand(command);
+    directoryManager.processCommand(command);
   } catch (e) {
     if (e instanceof Error) {
       printError(e.message);
