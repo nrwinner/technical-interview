@@ -28,6 +28,8 @@ export class FileSystem {
     if (command instanceof ListCommand) {
       return this.list();
     }
+
+    printError(`Failed to process command '${command.name}'`);
   }
 
   private create(path: string) {
