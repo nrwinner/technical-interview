@@ -26,7 +26,15 @@ export class FileSystem {
   }
 
   private create(path: string) {
-    this.traverse(parsePath(path), true);
+    try {
+      this.traverse(parsePath(path), true);
+    } catch (e) {
+      if (e instanceof Error) {
+        printError(`Cannot create ${path} - ${e.message}`);
+      } else {
+        console.error(e);
+      }
+    }
   }
 
   private list() {
@@ -42,11 +50,19 @@ export class FileSystem {
   }
 
   private move(origin: string, destination: string) {
-    const sourceDirectory = this.traverse(parsePath(origin));
-    sourceDirectory.parent.delete(sourceDirectory.key);
+    try {
+      const sourceDirectory = this.traverse(parsePath(origin));
+      sourceDirectory.parent.delete(sourceDirectory.key);
 
-    const destinationDirectory = this.traverse(parsePath(destination));
-    destinationDirectory.addExisting(sourceDirectory);
+      const destinationDirectory = this.traverse(parsePath(destination));
+      destinationDirectory.addExisting(sourceDirectory);
+    } catch (e) {
+      if (e instanceof Error) {
+        printError(`Cannot move ${origin} to ${destination} - ${e.message}`);
+      } else {
+        console.error(e);
+      }
+    }
   }
 
   private delete(path: string) {
@@ -68,40 +84,44 @@ export class FileSystem {
   }
 
   private traverse(path: string[], createIfNotExists = false): Directory {
-    let segmentIndex = 0;
-    let currentSlice = this.data;
+    let currentPathSegmentIndex = 0;
+    let currentlyVisitedDirectory = this.data;
 
-    if (path.length === 0 || (path.length === 1 && path[0] === '.')) {
+    const specifiedPathIsRoot =
+      path.length === 0 || (path.length === 1 && path[0] === '.');
+
+    if (specifiedPathIsRoot) {
       return this.data;
     }
 
-    const NotFoundError = () =>
-      new Error(`${path[segmentIndex]} does not exist`);
+    const createNotFoundError = () =>
+      new Error(`${path[currentPathSegmentIndex]} does not exist`);
 
-    while (segmentIndex < path.length) {
-      let indexOfKey = currentSlice.children.findIndex(
-        (next) => next.key === path[segmentIndex]
+    while (currentPathSegmentIndex < path.length) {
+      let indexOfKey = currentlyVisitedDirectory.children.findIndex(
+        (next) => next.key === path[currentPathSegmentIndex]
       );
 
       if (indexOfKey < 0) {
         if (!createIfNotExists) {
-          throw NotFoundError();
+          throw createNotFoundError();
         }
 
-        currentSlice.add(path[segmentIndex]);
-        indexOfKey = currentSlice.children.length - 1;
+        currentlyVisitedDirectory.add(path[currentPathSegmentIndex]);
+        indexOfKey = currentlyVisitedDirectory.children.length - 1;
       }
 
-      const itemAtLocation = currentSlice.children[indexOfKey];
+      const nextDirectory = currentlyVisitedDirectory.children[indexOfKey];
 
-      if (segmentIndex === path.length - 1) {
-        return itemAtLocation;
+      const nextDirectoryIsTarget = currentPathSegmentIndex === path.length - 1;
+      if (nextDirectoryIsTarget) {
+        return nextDirectory;
       }
 
-      currentSlice = itemAtLocation;
-      segmentIndex++;
+      currentlyVisitedDirectory = nextDirectory;
+      currentPathSegmentIndex++;
     }
 
-    throw NotFoundError();
+    throw createNotFoundError();
   }
 }
