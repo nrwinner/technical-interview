@@ -7,6 +7,9 @@ export abstract class Command {
     public readonly args: ReadonlyArray<string>
   ) {}
 
+  /**
+   * Test this command for validity
+   */
   public validate(): ValidatorResult {
     if (this.name.length === 0) {
       return {
@@ -18,8 +21,14 @@ export abstract class Command {
     return this._validate();
   }
 
+  /**
+   * Execute this command on a provided data set
+   * 
+   * @param rootDirectory - the root directory
+   * @param traverse - a function that, given a string path, locates and returns a matching directory
+   */
   public abstract execute(
-    data: Directory,
+    rootDirectory: Directory,
     traverse: (path: string[], createIfNotExists?: boolean) => Directory
   ): void;
 
