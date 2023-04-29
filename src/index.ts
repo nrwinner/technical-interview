@@ -1,13 +1,14 @@
-import { requestUserInput } from './utils/requestUserInput';
-import { FileSystem } from './FileSystem';
 import { Command } from './Command';
+import { FileSystem } from './FileSystem';
+import { parseInput } from './utils/parseInput';
 import { printError } from './outputs/printError';
+
+import { createReadStream } from 'fs';
 
 const fs = new FileSystem();
 
-const waitForCommand = async () => {
+const processCommand = (rawCommand: string) => {
   try {
-    const rawCommand = await requestUserInput('');
     const command = Command.create(rawCommand);
     fs.processCommand(command);
   } catch (e) {
@@ -18,12 +19,12 @@ const waitForCommand = async () => {
       return false;
     }
   }
-
-  return true;
 };
 
-export const beginEventLoop = async () => {
-  while (await waitForCommand());
-};
+const inputPath: string | undefined = process.argv[2];
 
-beginEventLoop();
+parseInput(
+  inputPath ? createReadStream(inputPath) : process.stdin,
+  processCommand,
+  Boolean(inputPath)
+);
