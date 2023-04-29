@@ -14,7 +14,7 @@ const waitForCommand = async () => {
     if (e instanceof Error) {
       printError(e.message);
     } else {
-      console.error(e);
+      printError(`UnknownError: ${e}`);
       return false;
     }
   }
