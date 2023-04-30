@@ -6,7 +6,7 @@ A [NodeJS](https://nodejs.org) implementation of a simple directory structure.
 
 ## Getting Started
 #### Installing dependencies
-We use [yarn](https://classic.yarnpkg.com) when developing this project. To get started, first install the project's dependencies:
+I used [yarn](https://classic.yarnpkg.com) when developing this project. To get started, first install the project's dependencies:
 ```bash
 yarn
 ```
@@ -73,3 +73,9 @@ class CountChildren extends Command {
 
 commandFactory.registerCommand('count-children', CountChildren);
 ```
+
+## Notes
+#### Performance
+This solution uses arrays to store directory children. I've taken steps to optimize here (inserting in place instead of re-sorting, short-circuit lookups) but I did not go as far as implementing a faster lookup, such as binary search, due to time constraints.
+#### Chalk
+I used the [chalk](https://www.npmjs.com/package/chalk) library to provide styled output to the terminal and improve general readability. It can be removed without impacting the completeness of the solution. 
