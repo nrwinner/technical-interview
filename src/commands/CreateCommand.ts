@@ -43,7 +43,7 @@ export class CreateCommand extends Command {
       if (e instanceof Error) {
         printError(`Cannot create ${this.args[0]} - ${e.message}`);
       } else {
-        console.error(e);
+        printError(`UnknownError: ${e}`);
       }
     }
   }

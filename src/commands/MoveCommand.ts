@@ -45,7 +45,7 @@ export class MoveCommand extends Command {
           `Cannot move ${this.args[0]} to ${this.args[1]} - ${e.message}`
         );
       } else {
-        console.error(e);
+        printError(`UnknownError: ${e}`);
       }
     }
   }

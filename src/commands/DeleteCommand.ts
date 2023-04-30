@@ -45,7 +45,7 @@ export class DeleteCommand extends Command {
       if (e instanceof Error) {
         printError(`Cannot delete ${this.args[0]} - ${e.message}`);
       } else {
-        console.error(e);
+        printError(`UnknownError: ${e}`);
       }
     }
   }

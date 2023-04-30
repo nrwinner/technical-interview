@@ -1,4 +1,5 @@
 import { createInterface } from 'readline';
+import { printMessage } from '../outputs/printMessage';
 
 export const listenForCommands = async (
   stream: NodeJS.ReadableStream,
@@ -12,7 +13,7 @@ export const listenForCommands = async (
 
   readlineInterface.on('line', (string) => {
     if (echoInput) {
-      console.log(string);
+      printMessage(string);
     }
     callback(string);
   });
