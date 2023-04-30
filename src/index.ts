@@ -1,7 +1,7 @@
-import { CommandFactory } from './CommandFactory';
-import { Directory } from './Directory';
-import { listenForCommands } from './utils/listenForCommands';
-import { printError } from './outputs/printError';
+import { CommandFactory } from '../lib/CommandFactory';
+import { Directory } from '../lib/Directory';
+import { listenForCommands } from '../lib/utils/listenForCommands';
+import { printError } from '../lib/outputs/printError';
 
 import { createReadStream } from 'fs';
 
