@@ -6,10 +6,11 @@ import { printError } from './outputs/printError';
 import { createReadStream } from 'fs';
 
 const rootDirectory = new Directory('_root', null);
+const commandFactory = new CommandFactory();
 
 const processCommand = (rawCommand: string) => {
   try {
-    const command = CommandFactory.create(rawCommand);
+    const command = commandFactory.create(rawCommand);
     command.execute(rootDirectory);
   } catch (e) {
     if (e instanceof Error) {

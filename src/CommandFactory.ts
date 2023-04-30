@@ -10,7 +10,7 @@ type CommandConstructor = new (
 ) => Command;
 
 export class CommandFactory {
-  private static readonly commandRegistry: Record<string, CommandConstructor> =
+  private readonly commandRegistry: Record<string, CommandConstructor> =
     {
       create: CreateCommand,
       delete: DeleteCommand,
@@ -18,14 +18,14 @@ export class CommandFactory {
       move: MoveCommand,
     };
 
-  public static registerCommand(
+  public registerCommand(
     name: string,
     commandConstructor: CommandConstructor
   ) {
     this.commandRegistry[name] = commandConstructor;
   }
 
-  public static create(commandString: string): Command {
+  public create(commandString: string): Command {
     const [name, ...args] = commandString.split(' ');
 
     const nameLower = name.toLowerCase();
