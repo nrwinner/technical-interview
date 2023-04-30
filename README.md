@@ -46,7 +46,8 @@ This project supports the following commands by default:
 | Create | Create a new directory at the specified path. All parent directories between the root and destination must exist. | `CREATE dir1/dir2` |
 | Move | Move an existing directory from one location to another. Both source and destination directories must already exist. | `MOVE dir1/dir2 dir3` |
 | Delete | Delete a directory at a specified path. | `DELETE dir1/dir2` |
-| List | Recursively print the directory structure. | `LIST` | 
+| List | Recursively print the directory structure. | `LIST` |
+
 *Note: command names are always interpreted case-insensitively.*
 
 ## Extension
