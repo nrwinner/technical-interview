@@ -57,10 +57,11 @@ export class Directory {
       return this;
     }
 
-    for (const subDirectory of this.children) {
-      if (subDirectory.key === currentPath) {
-        return subDirectory.search(path.slice(1));
-      }
+    const matchingSubDirectory = this.children.find(
+      (subDirectory) => subDirectory.key === currentPath
+    );
+    if (matchingSubDirectory) {
+      return matchingSubDirectory.search(path.slice(1));
     }
 
     throw new Error(`${currentPath} does not exist`);
