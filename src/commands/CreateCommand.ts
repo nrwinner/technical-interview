@@ -26,7 +26,7 @@ export class CreateCommand extends Command {
     return {
       valid: false,
       message:
-        'CommandValidationError: Please provide a path at which to create the item.',
+        'CommandValidationError: Please provide a path to create.',
     };
   }
 

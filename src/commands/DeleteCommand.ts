@@ -26,7 +26,7 @@ export class DeleteCommand extends Command {
     return {
       valid: false,
       message:
-        'CommandValidationError: Please provide a path at which to delete the item.',
+        'CommandValidationError: Please provide a path to delete.',
     };
   }
 

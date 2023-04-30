@@ -26,7 +26,7 @@ export class MoveCommand extends Command {
     return {
       valid: false,
       message:
-        'CommandValidationError: Please provide a target and destination path.',
+        'CommandValidationError: Please provide a source and destination path.',
     };
   }
 

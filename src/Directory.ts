@@ -1,5 +1,4 @@
 import { insertInAscOrder } from './utils/insertInOrder';
-import { parsePath } from './utils/parsePath';
 
 const directoryComparator = (item1: Directory, item2: Directory) => {
   if (item1.key < item2.key) {
