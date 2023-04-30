@@ -22,10 +22,9 @@ export abstract class Command {
   }
 
   /**
-   * Execute this command on a provided data set
+   * Execute this command on a provided directory
    *
    * @param rootDirectory - the root directory
-   * @param traverse - a function that, given a string path, locates and returns a matching directory
    */
   public abstract execute(rootDirectory: Directory): void;
 

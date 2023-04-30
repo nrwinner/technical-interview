@@ -55,13 +55,13 @@ This project can be extended to include new commands by extending the `Command` 
 const commandFactory = new CommandFactory();
 
 class CountChildren extends Command {
-  constructor(public readonly key = 'count-children', public readonly args: []) {
-    super(key, args);
+  constructor(public readonly name = 'count-children', public readonly args: []) {
+    super(name, args);
   }
 
   public execute(rootDirectory: Directory): void {
     printMessage(
-      `Directory at: ${rootDirectory.key} with ${rootDirectory.children.length} children`
+      `Directory at: ${rootDirectory.name} with ${rootDirectory.children.length} children`
     );
   }
 

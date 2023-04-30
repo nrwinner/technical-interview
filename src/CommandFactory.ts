@@ -10,21 +10,26 @@ type CommandConstructor = new (
 ) => Command;
 
 export class CommandFactory {
-  private readonly commandRegistry: Record<string, CommandConstructor> =
-    {
-      create: CreateCommand,
-      delete: DeleteCommand,
-      list: ListCommand,
-      move: MoveCommand,
-    };
+  private readonly commandRegistry: Record<string, CommandConstructor> = {
+    create: CreateCommand,
+    delete: DeleteCommand,
+    list: ListCommand,
+    move: MoveCommand,
+  };
 
-  public registerCommand(
-    name: string,
-    commandConstructor: CommandConstructor
-  ) {
+  /**
+   * Register a command for use within the factory
+   * @param name - the name of the command (i.e. "create")
+   * @param commandConstructor - a class that extends Command
+   */
+  public registerCommand(name: string, commandConstructor: CommandConstructor) {
     this.commandRegistry[name] = commandConstructor;
   }
 
+  /**
+   * Create and validate a new command from a given string
+   * @param commandString - a string representing the command to create
+   */
   public create(commandString: string): Command {
     const [name, ...args] = commandString.split(' ');
 

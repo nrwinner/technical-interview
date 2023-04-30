@@ -1,6 +1,7 @@
 import { Command } from '../Command';
 import { Directory } from '../Directory';
 import { printDirectoryItem } from '../outputs/printDirectoryItem';
+import { printError } from '../outputs/printError';
 import { printMessage } from '../outputs/printMessage';
 import { ValidatorResult } from '../types/ValidateResult';
 
@@ -18,14 +19,26 @@ export class ListCommand extends Command {
   }
 
   public execute(rootDirectory: Directory): void {
-    const listDirectory = (directory: Directory, level: number = 0) => {
-      printDirectoryItem(new Array(level).fill('  ').join('') + directory.key);
+    try {
+      const listDirectory = (directory: Directory, level: number = 0) => {
+        printDirectoryItem(
+          new Array(level).fill('  ').join('') + directory.name
+        );
 
-      directory.children.forEach((directory) =>
-        listDirectory(directory, level + 1)
+        directory.children.forEach((directory) =>
+          listDirectory(directory, level + 1)
+        );
+      };
+
+      rootDirectory.children.forEach((directory) =>
+        listDirectory(directory, 0)
       );
-    };
-
-    rootDirectory.children.forEach((directory) => listDirectory(directory, 0));
+    } catch (e) {
+      if (e instanceof Error) {
+        printError(`Cannot list directory - ${e.message}`);
+      } else {
+        printError(`UnknownError: ${e}`);
+      }
+    }
   }
 }

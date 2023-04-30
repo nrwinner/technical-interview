@@ -37,7 +37,7 @@ export class MoveCommand extends Command {
   public execute(rootDirectory: Directory): void {
     try {
       const sourceDirectory = rootDirectory.search(parsePath(this.args[0]));
-      sourceDirectory.parent.delete(sourceDirectory.key);
+      sourceDirectory.parent.delete(sourceDirectory.name);
 
       const destinationDirectory = rootDirectory.search(
         parsePath(this.args[1])
