@@ -11,7 +11,7 @@ export class ListCommand extends Command {
 
   protected _validate(): ValidatorResult {
     if (this.args.length) {
-      printMessage('Additional arguments were found and will be ignored');
+      printMessage('Additional arguments were found and will be ignored.');
     }
 
     return { valid: true };

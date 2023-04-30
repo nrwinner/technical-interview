@@ -21,7 +21,7 @@ const processCommand = (rawCommand: string) => {
   }
 };
 
-const inputPath: string | undefined = process.argv[2];
+const inputPath = process.argv[2];
 
 listenForCommands(
   inputPath ? createReadStream(inputPath) : process.stdin,

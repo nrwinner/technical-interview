@@ -19,20 +19,21 @@ export class DeleteCommand extends Command {
     }
 
     if (this.args.length > 1) {
-      printMessage('Additional arguments were found and will be ignored');
+      printMessage(
+        `Additional arguments were found and will be ignored: [${this.args
+          .slice(1)
+          .join(', ')}]`
+      );
       return { valid: true };
     }
 
     return {
       valid: false,
-      message:
-        'CommandValidationError: Please provide a path to delete.',
+      message: 'CommandValidationError: Please provide a path to delete.',
     };
   }
 
-  public execute(
-    rootDirectory: Directory,
-  ): void {
+  public execute(rootDirectory: Directory): void {
     const parsedPath = parsePath(this.args[0]);
 
     const hostDirectoryPath = parsedPath.slice(0, parsedPath.length - 1);

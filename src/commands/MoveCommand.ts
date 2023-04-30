@@ -19,7 +19,11 @@ export class MoveCommand extends Command {
     }
 
     if (this.args.length > 2) {
-      printMessage('Additional arguments were found and will be ignored');
+      printMessage(
+        `Additional arguments were found and will be ignored: [${this.args
+          .slice(2)
+          .join(', ')}]`
+      );
       return { valid: true };
     }
 

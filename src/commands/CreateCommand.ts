@@ -19,14 +19,17 @@ export class CreateCommand extends Command {
     }
 
     if (this.args.length > 1) {
-      printMessage('Additional arguments were found and will be ignored');
+      printMessage(
+        `Additional arguments were found and will be ignored: [${this.args
+          .slice(1)
+          .join(', ')}]`
+      );
       return { valid: true };
     }
 
     return {
       valid: false,
-      message:
-        'CommandValidationError: Please provide a path to create.',
+      message: 'CommandValidationError: Please provide a path to create.',
     };
   }
 
