@@ -54,7 +54,7 @@ export class Directory {
   public delete(name: string) {
     const index = this._children.findIndex((dir) => dir.name === name);
     if (index < 0) {
-      throw new Error(`${name} does not exist`);
+      throw new Error(`${name} does not exist.`);
     }
 
     this._children.splice(index, 1);
@@ -80,6 +80,6 @@ export class Directory {
       return matchingSubDirectory.search(path.slice(1));
     }
 
-    throw new Error(`${currentPath} does not exist`);
+    throw new Error(`${currentPath} does not exist.`);
   }
 }
