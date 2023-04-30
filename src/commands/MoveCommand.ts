@@ -30,15 +30,14 @@ export class MoveCommand extends Command {
     };
   }
 
-  public execute(
-    _: Directory,
-    traverse: (path: string[], createIfNotExists?: boolean) => Directory
-  ): void {
+  public execute(rootDirectory: Directory): void {
     try {
-      const sourceDirectory = traverse(parsePath(this.args[0]));
+      const sourceDirectory = rootDirectory.search(parsePath(this.args[0]));
       sourceDirectory.parent.delete(sourceDirectory.key);
 
-      const destinationDirectory = traverse(parsePath(this.args[1]));
+      const destinationDirectory = rootDirectory.search(
+        parsePath(this.args[1])
+      );
       destinationDirectory.addExisting(sourceDirectory);
     } catch (e) {
       if (e instanceof Error) {

@@ -1,4 +1,5 @@
 import { insertInAscOrder } from './utils/insertInOrder';
+import { parsePath } from './utils/parsePath';
 
 const directoryComparator = (item1: Directory, item2: Directory) => {
   if (item1.key < item2.key) {
@@ -19,7 +20,7 @@ export class Directory {
     private readonly _children: Array<Directory> = []
   ) {}
 
-  public add(key: string): void {
+  public createSubdirectory(key: string): void {
     insertInAscOrder(
       new Directory(key, this),
       this._children,
@@ -46,5 +47,23 @@ export class Directory {
 
   public get children(): ReadonlyArray<Directory> {
     return this._children;
+  }
+
+  public search(path: string[]): Directory {
+    const currentPath = path[0];
+
+    const pathIsThisDirectory = path.length === 1 && currentPath === '.';
+    const pathIsEmpty = path.length === 0;
+    if (pathIsThisDirectory || pathIsEmpty) {
+      return this;
+    }
+
+    for (const subDirectory of this.children) {
+      if (subDirectory.key === currentPath) {
+        return subDirectory.search(path.slice(1));
+      }
+    }
+
+    throw new Error(`${currentPath} does not exist`);
   }
 }

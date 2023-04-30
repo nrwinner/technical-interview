@@ -23,14 +23,11 @@ export abstract class Command {
 
   /**
    * Execute this command on a provided data set
-   * 
+   *
    * @param rootDirectory - the root directory
    * @param traverse - a function that, given a string path, locates and returns a matching directory
    */
-  public abstract execute(
-    rootDirectory: Directory,
-    traverse: (path: string[], createIfNotExists?: boolean) => Directory
-  ): void;
+  public abstract execute(rootDirectory: Directory): void;
 
   protected abstract _validate(): ValidatorResult;
 }

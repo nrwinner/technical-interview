@@ -31,8 +31,7 @@ export class DeleteCommand extends Command {
   }
 
   public execute(
-    _: Directory,
-    traverse: (path: string[], createIfNotExists?: boolean) => Directory
+    rootDirectory: Directory,
   ): void {
     const parsedPath = parsePath(this.args[0]);
 
@@ -40,7 +39,7 @@ export class DeleteCommand extends Command {
     const targetName = parsedPath[parsedPath.length - 1];
 
     try {
-      const hostDirectory = traverse(hostDirectoryPath);
+      const hostDirectory = rootDirectory.search(hostDirectoryPath);
       hostDirectory.delete(targetName);
     } catch (e) {
       if (e instanceof Error) {

@@ -30,12 +30,15 @@ export class CreateCommand extends Command {
     };
   }
 
-  public execute(
-    _: Directory,
-    traverse: (path: string[], insertIfNotExists?: boolean) => Directory
-  ): void {
+  public execute(rootDirectory: Directory): void {
     try {
-      traverse(parsePath(this.args[0]), true);
+      const path = parsePath(this.args[0]);
+
+      const containingDirectoryPath = path.slice(0, path.length - 1);
+      const targetDirectoryName = path[path.length - 1];
+
+      const containingDirectory = rootDirectory.search(containingDirectoryPath);
+      containingDirectory.createSubdirectory(targetDirectoryName);
     } catch (e) {
       if (e instanceof Error) {
         printError(`Cannot create ${this.args[0]} - ${e.message}`);
