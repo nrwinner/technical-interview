@@ -1,16 +1,15 @@
-import { Command } from '../Command';
+import { Command, CommandValidationResult } from '../Command';
 import { Directory } from '../Directory';
 import { printDirectoryItem } from '../outputs/printDirectoryItem';
 import { printError } from '../outputs/printError';
 import { printMessage } from '../outputs/printMessage';
-import { ValidatorResult } from '../types/ValidateResult';
 
 export class ListCommand extends Command {
   constructor(public readonly name: 'list', public readonly args: []) {
     super(name, args);
   }
 
-  protected _validate(): ValidatorResult {
+  protected _validate(): CommandValidationResult {
     if (this.args.length) {
       printMessage('Additional arguments were found and will be ignored.');
     }

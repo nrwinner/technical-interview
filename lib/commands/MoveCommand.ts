@@ -1,9 +1,8 @@
-import { Command } from '../Command';
+import { Command, CommandValidationResult } from '../Command';
 import { Directory } from '../Directory';
 import { parsePath } from '../utils/parsePath';
 import { printError } from '../outputs/printError';
 import { printMessage } from '../outputs/printMessage';
-import { ValidatorResult } from '../types/ValidateResult';
 
 export class MoveCommand extends Command {
   constructor(
@@ -13,7 +12,7 @@ export class MoveCommand extends Command {
     super(name, args);
   }
 
-  protected _validate(): ValidatorResult {
+  protected _validate(): CommandValidationResult {
     if (this.args.length === 2) {
       return { valid: true };
     }
